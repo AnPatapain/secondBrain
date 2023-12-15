@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import useForm from "../hooks/useForm";
+import {useNavigate} from "react-router-dom";
 
 interface AuthModalProps {
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>,
@@ -8,6 +9,7 @@ interface AuthModalProps {
 }
 
 const AuthModal:React.FC<AuthModalProps> = ({setShowModal, isSignup, setIsSignup}:AuthModalProps) => {
+    const navigate = useNavigate();
     const {values, handleChange, resetForm} = useForm({
         initialValues: {
             email: "",
@@ -30,10 +32,12 @@ const AuthModal:React.FC<AuthModalProps> = ({setShowModal, isSignup, setIsSignup
 
         if(isSignup) {
             console.log("signup payload", values);
+            setIsSignup(false);
             setMessage("Signup Successfully");
         }else {
             console.log("login payload", values);
             setMessage("Login Successfully");
+            navigate("/page");
         }
     }
 

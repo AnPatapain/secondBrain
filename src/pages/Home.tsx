@@ -18,7 +18,7 @@ const Home: React.FC = () => {
     return (
         <div className="overlay">
             <div className="home">
-                <h1 className="primary-title">Second Brain</h1>
+                <h1 className="primary-title">Second Brain 🧠</h1>
                 <article>
                     <p>Manage your life here. Create tasks list, personal financial state, daily blog</p>
                 </article>

@@ -1,20 +1,42 @@
 /*---------------- Variable -----------------*/
 :root {
+    /* colors */
     --primary-color: black;
     --button-text-color: white;
+    --tertiary: #F5F6FB;
+    --text: #484848;
+
+    /* fonts */
+    --accent: "Nunito Sans", Arial, sans-serif;
+    --regular: "Roboto", Arial, sans-serif;
+
+    /*Sizes*/
+    --page-max-width: 900px;
+
+    /*Others*/
+    --box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
 }
 
 /*------------------- App -------------------*/
-html body {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    background-color: #F6F6F6;
-    letter-spacing: 1px;
+html {
+    width: 100%;
+    height: 100%;
 }
 
-* {
-    font-family: 'Readex Pro', sans-serif;
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: var(--regular);
+    font-size: 1rem;
+    color: var(--text);
+}
+
+p {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.125rem;
 }
 
 .primary-title {
@@ -281,4 +303,23 @@ html body {
     .auth-modal {
         top: 0;
     }
+}
+/* -------------------------- Editable Page --------------------------------------------*/
+.Page {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--page-max-width);
+}
+
+/* -------------------------- EditableBlock --------------------------------------------*/
+.block {
+    padding: 0.25rem;
+    -webkit-user-select: text;
+    user-select: text;
+    /*border: 2px solid #aba7a7;*/
+}
+
+.block:focus{
+    background: var(--tertiary);
+    outline-color: var(--tertiary);
 }
