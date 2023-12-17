@@ -1,7 +1,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import React from "react";
 import Home from "./pages/Home";
-import EditablePage from "./pages/EditablePage/EditablePage";
+import EditablePage from "./pages/EditablePage";
 
 const App: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import uid from "../../utils/uid";
-import EditableBlock from "../../components/EditableBlock/EditableBlock";
-import setCaretToEnd from "../../utils/setCaretToEnd";
+import uid from "../utils/uid";
+import EditableBlock from "../components/EditableBlock";
+import setCaretToEnd from "../utils/setCaretToEnd";
 
 interface Block {
     id: string,
@@ -15,9 +15,18 @@ const initialBlock: Block = {
     tag: "p"
 }
 
+const initialBlocks: Block[] = [
+    {
+        id: uid(),
+        html: "Daily diary 🏡📒",
+        tag: "h1"
+    },
+    initialBlock
+]
+
 
 const EditablePage: React.FC = () => {
-    const [blocks, setBlocks] = useState<Block[]>([initialBlock]);
+    const [blocks, setBlocks] = useState<Block[]>(initialBlocks);
     const [currentBlock, setCurrentBlock] = useState<Block>(initialBlock);
 
 
@@ -26,6 +35,7 @@ const EditablePage: React.FC = () => {
         if(currentBlock) {
             const currentDomBlock = document.getElementById(currentBlock.id);
             if(currentDomBlock) {
+                console.log("hey")
                 currentDomBlock.focus();
                 setCaretToEnd(currentDomBlock);
             }
@@ -89,8 +99,8 @@ const EditablePage: React.FC = () => {
 
 
     return (
-        <div className="Page">
-            <h1>Daily diary 🏡📒</h1>
+        <div className="w-1/2 mx-auto">
+            {/*<h1 className="text-4xl font-bold my-4">Daily diary 🏡📒</h1>*/}
             {blocks.map((block, key) => {
                 return (
                     <EditableBlock key={key}

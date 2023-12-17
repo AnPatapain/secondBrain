@@ -16,19 +16,20 @@ const Home: React.FC = () => {
     }
 
     return (
-        <div className="overlay">
-            <div className="home">
-                <h1 className="primary-title">Second Brain 🧠</h1>
-                <article>
-                    <p>Manage your life here. Create tasks list, personal financial state, daily blog</p>
+        <div className="h-full flex justify-center">
+            <div className="my-60">
+                <h1 className="text-6xl font-bold">Second Brain 🧠</h1>
+                <article className="my-2">
+                    <p className="text-xl font-normal">Manage your life here. Create tasks list, personal financial state, daily blog</p>
                 </article>
-                <div className="home-buttons">
-                    <button className="primary-button" onClick={handleSignupClick}>Create Account</button>
-                    <button className="primary-button transparent-button" onClick={handleLoginClick}>Log in</button>
-                </div>
 
-                {showModal && (
+                {showModal ? (
                     <AuthModal setShowModal={setShowModal} isSignup={isSignup} setIsSignup={setIsSignup}/>
+                ) : (
+                    <div className="flex my-8" dir="ltr">
+                        <button className="btn text-xl me-2" onClick={handleSignupClick}>Create Account</button>
+                        <button className="btn btn-outline text-xl" onClick={handleLoginClick}>Log in</button>
+                    </div>
                 )}
             </div>
         </div>

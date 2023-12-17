@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import setCaretToEnd from "../../utils/setCaretToEnd";
+import setCaretToEnd from "../utils/setCaretToEnd";
 
 
 type IntrinsicDiv = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;

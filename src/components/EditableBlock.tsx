@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
-import ContentEditable, {ContentEditableEvent} from "../ContentEditable/ContentEditable";
-import getCaretIndex from "../../utils/getCaretIndex";
+import ContentEditable, {ContentEditableEvent} from "./ContentEditable";
+import getCaretIndex from "../utils/getCaretIndex";
+import setCaretToEnd from "../utils/setCaretToEnd";
 
 interface EditableBlockProps {
     id: string;
@@ -81,15 +82,21 @@ const EditableBlock: React.FC<EditableBlockProps> = (props) => {
         props.changeBlock({id: blockState.id, ref: blockRef.current}, "mouseClick");
     }
 
+    const getClassName = () => {
+        if(blockState.tag === 'p') return "block"
+        if(blockState.tag === 'h1') return "text-2xl font-bold my-4"
+    }
+
     return (
-        <ContentEditable className="block"
+        <ContentEditable className={getClassName()}
                          id={props.id}
+                         tagName={blockState.tag}
                          html={blockState.html}
+                         innerRef={blockRef}
+
                          onChange={onChangeHandler}
                          onKeyDown={onKeyDownHandler}
                          onClick={onClickHandler}
-                         tagName={blockState.tag}
-                         innerRef={blockRef}
                          disabled={false}
         />
     )
