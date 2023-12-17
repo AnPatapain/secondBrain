@@ -69,7 +69,8 @@ const EditableBlock: React.FC<EditableBlockProps> = (props) => {
             let caretIndex = getCaretIndex(blockDom);
             let htmlPure = blockState.html.replace(/<br>/g, '');
             let elementLen = htmlPure.length;
-
+            console.log(htmlPure, htmlPure.length)
+            console.log(caretIndex)
             if(caretIndex === elementLen) {
                 props.changeBlock({id: blockState.id, ref: blockRef.current}, "keyDown");
             }
