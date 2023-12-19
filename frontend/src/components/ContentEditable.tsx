@@ -22,6 +22,7 @@ const ContentEditable: React.FC<Props> = (props) => {
     const getElement = () => props.innerRef.current;
 
     const emitChange = (originalEvent: React.SyntheticEvent<any>) => {
+        console.log("emit Change");
         const element = getElement();
         if (!element) return;
 
@@ -39,6 +40,7 @@ const ContentEditable: React.FC<Props> = (props) => {
     }
 
     useEffect(() => {
+        console.log("ContentEditable.useEffect: ");
         const element = getElement();
         if(element && props.html !== element.innerHTML) {
             element.innerHTML = props.html;

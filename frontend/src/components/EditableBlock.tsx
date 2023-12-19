@@ -27,6 +27,7 @@ const EditableBlock: React.FC<EditableBlockProps> = (props) => {
 
     // Initialize state of block.
     useEffect(() => {
+        console.log("EditableBlock.useEffect: ", blockState);
         setBlockState({id: props.id, html: props.html, tag: props.tag});
     }, [props.html, props.id, props.tag]);
 

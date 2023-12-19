@@ -31,11 +31,10 @@ const EditablePage: React.FC = () => {
 
 
     useEffect(() => {
-        console.log("currentBlock", currentBlock);
+        console.log("EditablePage.useEffect currentBlock", currentBlock);
         if(currentBlock) {
             const currentDomBlock = document.getElementById(currentBlock.id);
             if(currentDomBlock) {
-                console.log("hey")
                 currentDomBlock.focus();
                 setCaretToEnd(currentDomBlock);
             }
@@ -100,7 +99,6 @@ const EditablePage: React.FC = () => {
 
     return (
         <div className="w-1/2 mx-auto">
-            {/*<h1 className="text-4xl font-bold my-4">Daily diary 🏡📒</h1>*/}
             {blocks.map((block, key) => {
                 return (
                     <EditableBlock key={key}
