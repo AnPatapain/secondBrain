@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
-import ContentEditable, {ContentEditableEvent} from "./ContentEditable";
 import getCaretIndex from "../utils/getCaretIndex";
-import setCaretToEnd from "../utils/setCaretToEnd";
+import caretIsAtEnd from "../utils/CaretIsAtEnd";
 
 interface EditableBlockProps {
     id: string;
+    initial_html?: string;
     html: string;
     tag: string;
     updatePage: (block: { id: string, html: string, tag: string }) => void;
@@ -22,84 +22,95 @@ interface EditableBlockState {
 }
 
 const EditableBlock: React.FC<EditableBlockProps> = (props) => {
-    const [blockState, setBlockState] = useState<EditableBlockState>({id: '', html: '', tag: 'p'});
-    const blockRef = useRef<any>(null);
+    const [blockState, setBlockState] = useState<EditableBlockState>({
+            id: props.id,
+            html: props.initial_html || "",
+            tag: props.tag
+    });
+    const contentRef = useRef<HTMLDivElement>(null);
 
-    // Initialize state of block.
+    /**
+     * useEffect that initializes the content in Block by the initial html passed from Page
+     */
     useEffect(() => {
-        console.log("EditableBlock.useEffect: ", blockState);
+        // console.log("EditableBlock.useEffect: set contentRef by props.initial_html", props.initial_html);
+        if(props.initial_html && contentRef.current) {
+            contentRef.current.innerHTML = props.initial_html;
+        }
+    }, [props.initial_html])
+
+    /**
+     * useEffect that set the state of Block by the props.html of this block passed from blocks state of Page
+     */
+    useEffect(() => {
+        // console.log("EditableBlock.useEffect: set block state by the props.html", props.html);
         setBlockState({id: props.id, html: props.html, tag: props.tag});
-    }, [props.html, props.id, props.tag]);
+    }, [props.html]);
 
-
-    const onChangeHandler = (e: ContentEditableEvent) => {
-        setBlockState({id: blockState.id, html: e.target.value, tag: blockState.tag});
-        props.updatePage({
-            id: blockState.id,
-            html: e.target.value,
-            tag: blockState.tag
-        })
+    /**
+     * Set the state of Block, update the blocks state of Page for every user's input
+     */
+    const onInputHandler = () => {
+        if(contentRef.current) {
+            const newHtml = contentRef.current.innerHTML;
+            setBlockState({...blockState, html: newHtml});
+            props.updatePage({id: blockState.id, html: newHtml, tag: blockState.tag});
+        }
     }
 
+    /**
+     * Handle key event for block
+     */
     const onKeyDownHandler = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
+        if(e.key === 'Enter') {
             if (blockState.previousKey !== 'Shift') {
                 e.preventDefault();
                 props.addBlock({
                     id: blockState.id,
-                    ref: blockRef.current
+                    ref: contentRef.current
                 })
             }
         }
-        if (e.key === 'Backspace' && !blockState.html) {
+        if(e.key === 'Backspace' && !blockState.html) {
             e.preventDefault();
             props.deleteBlock({
                 id: blockState.id,
-                ref: blockRef.current
+                ref: contentRef.current
             })
         }
         if (e.key === 'ArrowUp') {
-            const blockDom = document.getElementById(blockState.id);
-            const caretIndex = getCaretIndex(blockDom);
+            const caretIndex = getCaretIndex(contentRef.current);
             if(caretIndex === 0) {
-                props.changeBlock({id: blockState.id, ref: blockRef.current}, "keyUp");
+                props.changeBlock({id: blockState.id, ref: contentRef.current}, "keyUp");
             }
         }
         if (e.key === 'ArrowDown') {
-            const blockDom = document.getElementById(blockState.id);
-            let caretIndex = getCaretIndex(blockDom);
-            let htmlPure = blockState.html.replace(/<br>/g, '');
-            let elementLen = htmlPure.length;
-            console.log(htmlPure, htmlPure.length)
-            console.log(caretIndex)
-            if(caretIndex === elementLen) {
-                props.changeBlock({id: blockState.id, ref: blockRef.current}, "keyDown");
+            const jumpDown = caretIsAtEnd(contentRef.current);
+            if(jumpDown) {
+                props.changeBlock({id: blockState.id, ref: contentRef.current}, "keyDown");
             }
+
         }
-        setBlockState({...blockState, previousKey: e.key})
+        setBlockState({...blockState, previousKey: e.key});
     }
 
-    const onClickHandler = (e: React.MouseEvent) => {
-        console.log(blockState)
-        props.changeBlock({id: blockState.id, ref: blockRef.current}, "mouseClick");
-    }
-
+    /**
+     * Get the class name based on tag.
+     */
     const getClassName = () => {
-        if(blockState.tag === 'p') return "block"
+        if(blockState.tag === 'p') return ""
         if(blockState.tag === 'h1') return "text-2xl font-bold my-4"
     }
 
     return (
-        <ContentEditable className={getClassName()}
-                         id={props.id}
-                         tagName={blockState.tag}
-                         html={blockState.html}
-                         innerRef={blockRef}
-
-                         onChange={onChangeHandler}
-                         onKeyDown={onKeyDownHandler}
-                         onClick={onClickHandler}
-                         disabled={false}
+        <div
+            className={getClassName()}
+            id={blockState.id}
+            contentEditable={true}
+            onInput = {onInputHandler}
+            onKeyDown={onKeyDownHandler}
+            suppressContentEditableWarning={true}
+            ref={contentRef}
         />
     )
 }

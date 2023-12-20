@@ -1,5 +1,4 @@
 const setCaretToEnd = (element: any) => {
-    console.log("seCaretToEnd:", element);
     const target = document.createTextNode('');
     element.appendChild(target);
     // do not move caret if element was not focused

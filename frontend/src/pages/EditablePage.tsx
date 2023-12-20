@@ -5,19 +5,23 @@ import setCaretToEnd from "../utils/setCaretToEnd";
 
 interface Block {
     id: string,
+    initial_html: string,
     html: string,
     tag: string
 }
+//block 1abb<div>c</div>
 
 const initialBlock: Block = {
     id: uid(),
-    html: "block 1",
+    initial_html: "Type something",
+    html: "Type something",
     tag: "p"
 }
 
 const initialBlocks: Block[] = [
     {
         id: uid(),
+        initial_html: "Daily diary 🏡📒",
         html: "Daily diary 🏡📒",
         tag: "h1"
     },
@@ -31,10 +35,11 @@ const EditablePage: React.FC = () => {
 
 
     useEffect(() => {
-        console.log("EditablePage.useEffect currentBlock", currentBlock);
+        // console.log("EditablePage.useEffect currentBlock", currentBlock);
         if(currentBlock) {
             const currentDomBlock = document.getElementById(currentBlock.id);
             if(currentDomBlock) {
+                // console.log("EditablePage.useEffect focus on", currentDomBlock);
                 currentDomBlock.focus();
                 setCaretToEnd(currentDomBlock);
             }
@@ -53,7 +58,7 @@ const EditablePage: React.FC = () => {
     }
 
     const addBlockHandler = (currentBlock: {id: string, ref: any}) => {
-        const newBlock = {id: uid(), html: "", tag: "p"};
+        const newBlock = {id: uid(), initial_html: "",html: "", tag: "p"};
         const updateBlocks = [...blocks];
         const index_currentBlock = updateBlocks.map((b) => b.id).indexOf(currentBlock.id);
         updateBlocks.splice(index_currentBlock + 1, 0, newBlock);
@@ -101,9 +106,10 @@ const EditablePage: React.FC = () => {
         <div className="w-1/2 mx-auto">
             {blocks.map((block, key) => {
                 return (
-                    <EditableBlock key={key}
+                    <EditableBlock key={block.id}
                                    id={block.id}
                                    html={block.html}
+                                   initial_html={block.initial_html}
                                    tag={block.tag}
                                    updatePage={updatePageHandler}
                                    addBlock={addBlockHandler}
