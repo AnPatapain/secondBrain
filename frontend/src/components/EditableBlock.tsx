@@ -95,6 +95,13 @@ const EditableBlock: React.FC<EditableBlockProps> = (props) => {
     }
 
     /**
+     * Handle click event
+     */
+    const onClickHandler = (e: React.MouseEvent) => {
+        props.changeBlock({id: blockState.id, ref: contentRef.current}, "mouseClick");
+    }
+
+    /**
      * Get the class name based on tag.
      */
     const getClassName = () => {
@@ -104,11 +111,12 @@ const EditableBlock: React.FC<EditableBlockProps> = (props) => {
 
     return (
         <div
-            className={getClassName()}
+            className={`${getClassName()} px-0.5`}
             id={blockState.id}
             contentEditable={true}
             onInput = {onInputHandler}
             onKeyDown={onKeyDownHandler}
+            onClick={onClickHandler}
             suppressContentEditableWarning={true}
             ref={contentRef}
         />

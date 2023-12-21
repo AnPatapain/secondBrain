@@ -13,8 +13,8 @@ interface Block {
 
 const initialBlock: Block = {
     id: uid(),
-    initial_html: "Type something",
-    html: "Type something",
+    initial_html: "Type something ✍🏼",
+    html: "Type something ✍🏼",
     tag: "p"
 }
 

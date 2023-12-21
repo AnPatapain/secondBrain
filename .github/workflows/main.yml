@@ -1,0 +1,50 @@
+name: Auto-deployment pipeline
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+jobs:
+  push_frontend_container_to_dockerhub:
+    name: Push frontend dockerhub
+    runs-on: ubuntu-latest
+#    needs: [push_backend_container_to_dockerhub]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_PASSWORD }}
+
+      - name: Build docker image
+        run: |
+          cd frontend
+          docker build -t secondBrain_client .
+
+      - name: Push docker image to Dockerhub
+        run: |
+          docker tag secondBrain_client ${{ env.DOCKERHUB_USERNAME }}/secondBrain_client
+          docker push ${{ env.DOCKERHUB_USERNAME }}/secondBrain_client
+
+  deploy_frontend_container_to_dockerhub:
+    name: deploy frontend container to heroku
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy frontend to heroku
+        uses: akhileshns/heroku-deploy@v3.12.14
+        with:
+          heroku_api_key: ${{ env.HEROKU_API_KEY }}
+          heroku_app_name: "second-brain"
+          heroku_email: "ke_an.nguyen@insa-cvl.fr"
+          appdir: "frontend"
