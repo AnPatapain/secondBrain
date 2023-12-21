@@ -45,7 +45,7 @@ const EditableBlock: React.FC<EditableBlockProps> = (props) => {
     useEffect(() => {
         // console.log("EditableBlock.useEffect: set block state by the props.html", props.html);
         setBlockState({id: props.id, html: props.html, tag: props.tag});
-    }, [props.html]);
+    }, [props.html, props.id, props.tag]);
 
     /**
      * Set the state of Block, update the blocks state of Page for every user's input

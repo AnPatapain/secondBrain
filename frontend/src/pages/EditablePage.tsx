@@ -104,7 +104,7 @@ const EditablePage: React.FC = () => {
 
     return (
         <div className="w-1/2 mx-auto">
-            {blocks.map((block, key) => {
+            {blocks.map((block) => {
                 return (
                     <EditableBlock key={block.id}
                                    id={block.id}
