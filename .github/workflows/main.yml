@@ -28,11 +28,11 @@ jobs:
       - name: Build docker image
         run: |
           cd frontend
-          docker build -t secondBrain_client .
+          docker build -t second_brain_client .
 
       - name: Push docker image to Dockerhub
         run: |
-          docker tag secondBrain_client ${{ env.DOCKERHUB_USERNAME }}/secondBrain_client
+          docker tag secondBrain_client ${{ env.DOCKERHUB_USERNAME }}/second_brain_client
           docker push ${{ env.DOCKERHUB_USERNAME }}/secondBrain_client
 
   deploy_frontend_container_to_dockerhub:
