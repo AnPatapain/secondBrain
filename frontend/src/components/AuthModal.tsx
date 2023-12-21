@@ -42,12 +42,12 @@ const AuthModal:React.FC<AuthModalProps> = ({setShowModal, isSignup, setIsSignup
     }
 
     return (
-        <div className="max-w-md p-4 bg-slate-800">
+        <div className="max-w-md p-4 bg-slate-400">
             <div className="cursor-pointer float-right" onClick={handleClick}>
                 &#10006;
             </div>
 
-            <h2 className="text-2xl font-bold text-center">{isSignup ? 'Create Account' : 'Log In'}</h2>
+            <h2 className="text-3xl font-bold text-center">{isSignup ? 'Create Account' : 'Login'}</h2>
             <form className="max-w-sm flex flex-col mx-auto my-2" onSubmit={handleSubmit}>
                 <input
                     type="email"
